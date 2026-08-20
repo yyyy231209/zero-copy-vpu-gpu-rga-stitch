@@ -186,6 +186,77 @@ panorama_pipeline/
 └── README.md
 ```
 
+## 📖 文件解析 / File Guide
+
+> 本节按**数据流顺序**逐个文件解释作用，帮助理解管线如何从摄像头图像变成全景输出。
+
+### 采集与解码（Input & Decode）
+
+| 文件 | 作用 |
+|---|---|
+| `src/v4l2_streaming.cpp` | **V4L2 采集**。打开 `/dev/videoN` 摄像头，配置 MJPG 格式，用 `mmap`/DMA-BUF 方式申请采集缓冲，循环出队图像帧（只传 fd，不拷贝像素） |
+| `src/camera_resolver.cpp` | **相机身份解析**。通过 USB Hub 下游端口号（`1-1.4.<port>`）识别每路相机的 `/dev/videoN`，不依赖易变的设备节点顺序 |
+| `include/camera_resolver.h` | 相机解析函数声明（`resolve_usb_camera_by_hub_port`） |
+| `src/mpp.cpp` | **MPP 硬解码**。调用 Rockchip MPP 把 MJPG 帧解码为 NV12（YUV420 半平面），解码输出直接进 DMA-BUF，CPU 不碰像素 |
+| `include/mpp.h` | MPP 解码上下文与接口（`MppDecCtx`、`mpp_dec_*` 系列） |
+| `src/camer_pip.cpp` | **单路相机管线**。把 V4L2 采集 + MPP 解码封装成一条流水线（`cp_open`/`cp_next`/`cp_close`），WarpProducer 直接调用 |
+| `include/camer_pip.h` | 相机管线接口（`CameraPipe` 结构 + `cp_*` 函数） |
+
+### GPU 几何变换（GPU Warp）
+
+| 文件 | 作用 |
+|---|---|
+| `src/gpu_warp_roi.cpp` | **OpenCL remap 核心**（538 行）。初始化 Mali GPU OpenCL context，用 `clImportMemoryARM` 导入 DMA-BUF，加载预标定 map_x/map_y/valid 表，Y/UV 双 kernel 把每路相机图像按映射表变换到全景坐标系，输出 NV12 到 DMA-BUF |
+| `include/gpu_warp_roi.h` | GPU warp 配置与接口（`GpuWarpRoiConfig`、`GpuWarpRoi`） |
+
+### 单路 Worker 与帧同步（Producer & Sync）
+
+| 文件 | 作用 |
+|---|---|
+| `src/warp_producer.cpp` | **单路 Warp Producer**（410 行）。每路相机一个：内部维护 3 槽缓冲池（`FREE→WRITING→READY→READING` 状态机），worker 线程循环采集→解码→GPU warp，`acquire_latest()` 供下游取最新帧 |
+| `include/warp_producer.h` | Producer 配置/统计/帧引用接口（`WarpConfig`、`WarpProducerStats`、`WarpedFrameRef`） |
+| `src/frame_synchronizer.cpp` | **四路帧同步**。从 4 个 Producer 各取一帧，按时间戳配对成组，超过 `maximum_spread_ns`（40ms）的旧帧被拒，保证四路画面时间对齐 |
+| `include/frame_synchronizer.h` | 同步组结构与接口（`SynchronizedFrameGroup`、`FrameSynchronizer`） |
+
+### 全景合成（Compose & Output）
+
+| 文件 | 作用 |
+|---|---|
+| `src/panorama_composer.cpp` | **全景合成器**（399 行）。RGA 把 4 路 warp 输出按 `kInputs[4]` 布局拷到全景画布（主体 95.7%），OpenCL 3 条接缝（36/36/34px）融合，最后 RGA 裁剪 NV12→BGR888 输出 |
+| `include/panorama_composer.h` | 合成器常量（`kBgrWidth=2248`、`kBgrHeight=330`、`kBgrStride=2256`、`kOutputSlots=3`、`kBgrSlots=6`）与接口 |
+| `src/panorama_pipeline.cpp` | **对外 API 实现**（454 行）。`init(assets)`→`start()`→`acquire()/read()`，管理 4 个 Producer + 同步器 + 合成器 + BGR 6 槽租赁池，`release_callback` 支持异步下游 |
+| `include/panorama_pipeline.h` | 对外 API（`PanoramaPipeline`、`PanoramaFrameRef`、`PanoramaFrame`、`PanoramaPipelineStats`） |
+
+### 底层支撑（Foundation）
+
+| 文件 | 作用 |
+|---|---|
+| `src/dma_alloc.cpp` | **DMA-BUF 分配**。封装 `/dev/dma_heap/system-uncached-dma32` 分配 + mmap 映射 + cache 同步，全管线共享同一套零拷贝内存 |
+| `include/dma_alloc.h` | DMA 分配接口（`dma_alloc`/`dma_free`/`dma_sync_cpu_to_device` 等） |
+
+### 应用程序（apps/）
+
+| 文件 | 作用 |
+|---|---|
+| `apps/panorama_display.cpp` | **视觉验收显示程序**。启动管线，`acquire()` 取帧，用 OpenCV 显示全景画面（生产库不依赖 OpenCV，仅此程序用于验收） |
+| `apps/panorama_output_lease_test.cpp` | **输出槽租赁测试**。验证 BGR 6 槽池的 acquire/release 契约：6 个唯一 fd、第 7 个阻塞、槽位复用、`read()` 兼容接口（产出 `passed=1` 证据） |
+
+### 资产与标定（Assets & Calibration）
+
+| 文件 | 作用 |
+|---|---|
+| `assets/open_chain_v1/` | **预标定资产**（32 文件，16MB）。map_x/map_y（f32 映射表）+ valid 掩码 + 3 条接缝的 Y/UV 左右权重 + coverage + manifest.json（SHA-256 校验） |
+| `calibration/stitch_360.py` | **标定算法**。OpenCV fisheye 标定 + open-chain 投影 + 自动接缝搜索（PC 端运行） |
+| `calibration/export_open_chain_assets.py` | **资产导出**。把标定结果导出为板端格式（map_x/map_y f32、valid u8、接缝权重、manifest） |
+| `calibration/calib_cam1~4.npz` | 四路相机 fisheye 内参（K/D 矩阵） |
+| `calibration/camera_order.json` | 相机逻辑顺序（cam2→cam1→cam4→cam3） |
+
+### 构建配置
+
+| 文件 | 作用 |
+|---|---|
+| `Makefile` | 构建脚本：`CORE_NAMES` 声明 10 个核心源文件 → 静态库 `libpanorama_pipeline.a`；`make all` 编译，`make check-libs` 校验 Mali OpenCL 链接路径，`make clean` 清理 |
+
 ## 📦 输出契约 / Output Contract
 
 `PanoramaPipeline::acquire()` 返回 `PanoramaFrameRef`（租赁式），`read()` 返回 `PanoramaFrame`（兼容接口），均包含：
