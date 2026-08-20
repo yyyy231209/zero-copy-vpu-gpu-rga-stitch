@@ -457,9 +457,9 @@ make check-libs
 
 本项目是全景拼接 + NPU 检测系统的**核心拼接模块**，配套项目：
 
-- [NPU_dectect](../NPU_dectect) — 三核 NPU 裂缝检测（PackedStrips 一次推理）
-- [panorama_npu](../panorama_npu) — 全景 + NPU 全链路集成（6 Worker/3 NPU Core）
-- [rga_gpu_cpu_stitch](../rga_gpu_cpu_stitch) — CPU 拼接第一代架构
+- [zero-copy-tri-core-npu-inference](https://github.com/yyyy231209/zero-copy-tri-core-npu-inference) — 三核 NPU 隧道裂缝检测（消费本项目的 DMA-BUF 输出，PackedStrips 一次推理）
+- [rockchip-linux/mpp](https://github.com/rockchip-linux/mpp) — Rockchip 媒体处理库（本项目 MPP 自编译版）
+- [airockchip/rknn-toolkit2](https://github.com/airockchip/rknn-toolkit2) — RKNN 模型转换与部署工具链（NPU 模块用）
 
 ## 📄 License
 
