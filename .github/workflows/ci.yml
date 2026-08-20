@@ -20,7 +20,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             g++-aarch64-linux-gnu \
-            ocl-icd-opencl-dev
+            ocl-icd-opencl-dev \
+            libopencv-dev
+          # 交叉编译器默认不搜索 host 的 /usr/include，把 OpenCV 头复制进交叉 include 目录
+          sudo cp -r /usr/include/opencv4 /usr/aarch64-linux-gnu/include/
 
       - name: Fetch upstream headers (MPP + RGA, headers only)
         run: |
@@ -53,7 +56,6 @@ jobs:
             echo "== checking $f"
             aarch64-linux-gnu-g++ -std=c++17 -Wall -Wextra -fsyntax-only \
               -Iinclude -I/tmp/mpp/inc -I/tmp/librga/include \
-              -I/usr/include/opencv4 \
               "$f" || exit 1
           done
 
