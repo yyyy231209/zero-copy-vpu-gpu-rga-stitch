@@ -3,6 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-RK3588-red.svg)](https://www.rock-chips.com)
 [![Language](https://img.shields.io/badge/Language-C%2B%2B17-blue.svg)]()
+[![CI](https://github.com/yyyy231209/zero-copy-vpu-gpu-rga-stitch/actions/workflows/ci.yml/badge.svg)](https://github.com/yyyy231209/zero-copy-vpu-gpu-rga-stitch/actions/workflows/ci.yml)
+[![Wiki](https://img.shields.io/badge/Wiki-文档-2ea44f.svg)](https://github.com/yyyy231209/zero-copy-vpu-gpu-rga-stitch/wiki)
 
 RK3588 平台零拷贝四路摄像头实时全景拼接管线：V4L2 采集 → MPP 硬解码 → Mali GPU OpenCL 几何变换 → RGA 主体拷贝 + GPU 窄接缝融合 → DMA-BUF 全景输出。
 

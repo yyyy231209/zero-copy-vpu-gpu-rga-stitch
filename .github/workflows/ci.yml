@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  # RK3588 硬件依赖（MPP/RGA/Mali OpenCL）无法在 CI 中完整编译，
+  # 这里做源码级检查：语法、头文件引用、Makefile 目标完整性。
+  syntax-check:
+    name: Source syntax check (aarch64 cross)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install aarch64 cross compiler + OpenCV headers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-aarch64-linux-gnu libopencv-dev
+
+      - name: C++ syntax check (all src/)
+        run: |
+          set -e
+          for f in src/*.cpp; do
+            echo "== checking $f"
+            aarch64-linux-gnu-g++ -std=c++17 -Wall -Wextra -fsyntax-only \
+              -Iinclude "$f" || exit 1
+          done
+
+      - name: C++ syntax check (apps/, tests/)
+        run: |
+          set -e
+          for f in apps/*.cpp tests/*.cpp; do
+            echo "== checking $f"
+            aarch64-linux-gnu-g++ -std=c++17 -Wall -Wextra -fsyntax-only \
+              -Iinclude -I/usr/include/opencv4 "$f" || exit 1
+          done
+
+      - name: Verify Makefile core objects match src/
+        run: |
+          set -e
+          python3 - <<'EOF'
+          import re, pathlib
+          mk = pathlib.Path('Makefile').read_text()
+          names = re.findall(r'\b(camera_resolver|frame_synchronizer|panorama_composer|panorama_pipeline|warp_producer|gpu_warp_roi|camer_pip|mpp|v4l2_streaming|dma_alloc)\b', mk)
+          src = sorted(p.stem for p in pathlib.Path('src').glob('*.cpp'))
+          missing = [n for n in names if n not in src]
+          extra = [s for s in src if s not in names]
+          assert not missing, f'Makefile references missing src: {missing}'
+          assert not extra, f'src/ files not in Makefile: {extra}'
+          print(f'OK: Makefile covers {len(src)} src files')
+          EOF
+
+      - name: Markdown sanity (README headings present)
+        run: |
+          python3 - <<'EOF'
+          import pathlib
+          r = pathlib.Path('README.md').read_text(encoding='utf-8')
+          for h in ['技术亮点', '系统架构', '文件解析', '复刻条件', '构建与运行', '性能数据', '常见问题', 'License']:
+              assert h in r, f'README missing section: {h}'
+          print('OK: README sections complete')
+          EOF

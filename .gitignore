@@ -29,3 +29,6 @@ memory*.md
 # Runtime-generated test outputs (keep committed evidence, ignore new runs)
 tests/artifacts/*.log
 tests/artifacts/*.bin
+
+# Wiki draft pages (published to GitHub Wiki, not the main repo)
+wiki_draft/
