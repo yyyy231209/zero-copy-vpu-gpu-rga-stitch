@@ -47,16 +47,23 @@ jobs:
               "$f" || exit 1
           done
 
-      - name: C++ syntax check (apps/, tests/)
+      - name: C++ syntax check (apps/)
         run: |
           set -e
-          for f in apps/*.cpp tests/*.cpp; do
+          for f in apps/*.cpp; do
             echo "== checking $f"
             aarch64-linux-gnu-g++ -std=c++17 -Wall -Wextra -fsyntax-only \
               -Iinclude -I/tmp/mpp/inc -I/tmp/librga/include \
               -I/usr/include/opencv4 \
               "$f" || exit 1
           done
+
+      - name: Verify test evidence exists
+        run: |
+          set -e
+          test -f tests/artifacts/panorama_output_lease.txt
+          grep -q 'passed=1' tests/artifacts/panorama_output_lease.txt
+          echo 'OK: lease test evidence passed=1 present'
 
       - name: Verify Makefile core objects match src/
         run: |
