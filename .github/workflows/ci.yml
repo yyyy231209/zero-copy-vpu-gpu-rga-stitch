@@ -22,8 +22,17 @@ jobs:
             g++-aarch64-linux-gnu \
             ocl-icd-opencl-dev \
             libopencv-dev
-          # 交叉编译器默认不搜索 host 的 /usr/include，把 OpenCV 头复制进交叉 include 目录
-          sudo cp -r /usr/include/opencv4 /usr/aarch64-linux-gnu/include/
+          echo "== locate opencv headers =="
+          find /usr/include /usr/local/include -maxdepth 4 -name highgui.hpp 2>/dev/null | head -5
+          echo "== copy to cross include =="
+          for d in /usr/include/opencv4 /usr/local/include/opencv4; do
+            if [ -d "$d" ]; then
+              sudo cp -r "$d" /usr/aarch64-linux-gnu/include/
+              echo "copied $d"
+            fi
+          done
+          echo "== cross compiler search paths =="
+          aarch64-linux-gnu-g++ -E -x c++ -v /dev/null 2>&1 | grep -A8 'search starts here'
 
       - name: Fetch upstream headers (MPP + RGA, headers only)
         run: |
