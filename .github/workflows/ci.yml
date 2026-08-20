@@ -7,18 +7,29 @@ on:
     branches: [master]
 
 jobs:
-  # RK3588 硬件依赖（MPP/RGA/Mali OpenCL）无法在 CI 中完整编译，
-  # 这里做源码级检查：语法、头文件引用、Makefile 目标完整性。
+  # RK3588 硬件依赖（MPP/RGA/Mali OpenCL 闭源库）无法在 CI 中完整编译，
+  # 这里做源码级检查：用官方头文件做 aarch64 交叉语法检查 + 工程完整性检查。
   syntax-check:
     name: Source syntax check (aarch64 cross)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install aarch64 cross compiler + OpenCV headers
+      - name: Install cross compiler + OpenCL headers
         run: |
           sudo apt-get update
-          sudo apt-get install -y g++-aarch64-linux-gnu libopencv-dev
+          sudo apt-get install -y \
+            g++-aarch64-linux-gnu \
+            ocl-icd-opencl-dev
+
+      - name: Fetch upstream headers (MPP + RGA, headers only)
+        run: |
+          git clone --depth 1 -b develop https://github.com/rockchip-linux/mpp.git /tmp/mpp
+          git clone --depth 1 https://github.com/airockchip/librga.git /tmp/librga
+          echo "MPP inc:   /tmp/mpp/inc"
+          ls /tmp/mpp/inc/rockchip/ | head -5
+          echo "RGA inc:   /tmp/librga/include"
+          ls /tmp/librga/include/ | head -5
 
       - name: C++ syntax check (all src/)
         run: |
@@ -26,7 +37,9 @@ jobs:
           for f in src/*.cpp; do
             echo "== checking $f"
             aarch64-linux-gnu-g++ -std=c++17 -Wall -Wextra -fsyntax-only \
-              -Iinclude "$f" || exit 1
+              -Iinclude -I/tmp/mpp/inc -I/tmp/librga/include \
+              -I/usr/lib/aarch64-linux-gnu/../../../usr/include \
+              "$f" || exit 1
           done
 
       - name: C++ syntax check (apps/, tests/)
@@ -35,7 +48,9 @@ jobs:
           for f in apps/*.cpp tests/*.cpp; do
             echo "== checking $f"
             aarch64-linux-gnu-g++ -std=c++17 -Wall -Wextra -fsyntax-only \
-              -Iinclude -I/usr/include/opencv4 "$f" || exit 1
+              -Iinclude -I/tmp/mpp/inc -I/tmp/librga/include \
+              -I/usr/include/opencv4 \
+              "$f" || exit 1
           done
 
       - name: Verify Makefile core objects match src/
