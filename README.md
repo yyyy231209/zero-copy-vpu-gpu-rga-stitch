@@ -1,13 +1,12 @@
-# Infineon ELF2 (RK3588) Four-Camera Real-Time Panorama Pipeline
+# RK3588 Four-Camera Real-Time Panorama Pipeline
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-RK3588-red.svg)](https://www.rock-chips.com)
-[![Board](https://img.shields.io/badge/Board-Infineon_ELF2-blue.svg)]()
 [![Language](https://img.shields.io/badge/Language-C%2B%2B17-blue.svg)]()
 
-英飞凌 ELF2（RK3588）平台零拷贝四路摄像头实时全景拼接管线：V4L2 采集 → MPP 硬解码 → Mali GPU OpenCL 几何变换 → RGA 主体拷贝 + GPU 窄接缝融合 → DMA-BUF 全景输出。
+RK3588 平台零拷贝四路摄像头实时全景拼接管线：V4L2 采集 → MPP 硬解码 → Mali GPU OpenCL 几何变换 → RGA 主体拷贝 + GPU 窄接缝融合 → DMA-BUF 全景输出。
 
-A zero-copy four-camera real-time panorama stitching pipeline on Infineon ELF2 (Rockchip RK3588): V4L2 capture → MPP hardware decode → Mali GPU OpenCL warp → RGA body copy + GPU narrow-seam blending → DMA-BUF panorama output.
+A zero-copy four-camera real-time panorama stitching pipeline on Rockchip RK3588: V4L2 capture → MPP hardware decode → Mali GPU OpenCL warp → RGA body copy + GPU narrow-seam blending → DMA-BUF panorama output.
 
 ---
 
@@ -29,7 +28,7 @@ A zero-copy four-camera real-time panorama stitching pipeline on Infineon ELF2 (
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│            Infineon ELF2 (RK3588 SoC)                       │
+│            Rockchip RK3588 SoC                              │
 │                                                             │
 │  CAM1 ─┐                                                    │
 │  CAM2 ─┼─► V4L2 MJPG ─► MPP 硬解码(NV12) ─┐                │
@@ -213,7 +212,7 @@ panorama_pipeline/
 
 | 组件 | 规格 | 备注 |
 |---|---|---|
-| 开发板 | **英飞凌 ELF2**（Infineon ELF2，搭载 Rockchip RK3588） | 需 Mali GPU + NPU + MPP/VPU |
+| 开发板 | **Rockchip RK3588 开发板** | 需 Mali GPU + NPU + MPP/VPU |
 | 摄像头 ×4 | USB 摄像头，1280×720 MJPG@30 | 需接入同一 USB Hub（下游端口 2/3/4/5） |
 | 存储 | eMMC 或 SD 卡 | 系统盘 |
 | 电源 | 板卡配套电源 | 四路摄像头供电稳定 |
@@ -222,7 +221,7 @@ panorama_pipeline/
 
 | 组件 | 版本/要求 | 备注 |
 |---|---|---|
-| 操作系统 | Debian/Ubuntu (aarch64) | 英飞凌 ELF2 板预装系统 |
+| 操作系统 | Debian/Ubuntu (aarch64) | RK3588 板预装系统 |
 | Linux 内核 | 5.10（Rockchip BSP） | 需 dma-heap 支持 |
 | 编译器 | GCC (C++17) | `g++ -std=c++17` |
 | CMake/Make | make ≥ 4.x | 本项目使用 Makefile |
@@ -249,7 +248,7 @@ panorama_pipeline/
 
 | 组件 | 说明 |
 |---|---|
-| Rockchip RK3588 开发板（英飞凌 ELF2） | 本工程在 Infineon ELF2 板验证 |
+| Rockchip RK3588 开发板 | 本工程在 RK3588 板验证 |
 | V4L2 摄像头 ×4 | 1280x720 MJPG@30 |
 | MPP (librockchip_mpp) | Rockchip 媒体处理库，**自编译版**（见下方说明） |
 | RGA (librga) | Rockchip 2D 加速 |
@@ -291,7 +290,7 @@ sudo env DISPLAY=:1 XAUTHORITY=/run/user/1000/gdm/Xauthority \
 从零开始复刻整个项目的推荐顺序：
 
 ```text
-① 准备硬件：英飞凌 ELF2（RK3588）板 + 4×USB 摄像头（接入同一 Hub）
+① 准备硬件：RK3588 开发板 + 4×USB 摄像头（接入同一 Hub）
 ② 安装系统：Debian/Ubuntu aarch64 + Rockchip BSP 内核 5.10
 ③ 编译安装自编译 MPP（见上方"MPP 必须使用自编译版本"）
 ④ 确认依赖：librga、libmali-x11（含 clImportMemoryARM）、dma-heap
@@ -367,7 +366,7 @@ pipeline.stop();
 | 整幅预览转换 | ~1.075 ms/帧 | RGA NV12→BGR |
 | 系统内存 | ~33% | 实时进程 RSS ~167 MiB |
 
-> 数据采集于英飞凌 ELF2（RK3588）开发板，四路 USB 摄像头，预热后持续采样。
+> 数据采集于 RK3588 开发板，四路 USB 摄像头，预热后持续采样。
 
 ## 🧪 测试 / Tests
 
