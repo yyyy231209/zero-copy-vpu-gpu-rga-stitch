@@ -22,17 +22,6 @@ jobs:
             g++-aarch64-linux-gnu \
             ocl-icd-opencl-dev \
             libopencv-dev
-          echo "== locate opencv headers =="
-          find /usr/include /usr/local/include -maxdepth 4 -name highgui.hpp 2>/dev/null | head -5
-          echo "== copy to cross include =="
-          for d in /usr/include/opencv4 /usr/local/include/opencv4; do
-            if [ -d "$d" ]; then
-              sudo cp -r "$d" /usr/aarch64-linux-gnu/include/
-              echo "copied $d"
-            fi
-          done
-          echo "== cross compiler search paths =="
-          aarch64-linux-gnu-g++ -E -x c++ -v /dev/null 2>&1 | grep -A8 'search starts here'
 
       - name: Fetch upstream headers (MPP + RGA, headers only)
         run: |
@@ -65,6 +54,7 @@ jobs:
             echo "== checking $f"
             aarch64-linux-gnu-g++ -std=c++17 -Wall -Wextra -fsyntax-only \
               -Iinclude -I/tmp/mpp/inc -I/tmp/librga/include \
+              -I/usr/include/opencv4 \
               "$f" || exit 1
           done
 
