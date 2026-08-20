@@ -1,0 +1,28 @@
+{
+  "all_body_rectangles_nv12_even": true,
+  "all_maps_finite": true,
+  "all_roi_offsets_and_widths_even": true,
+  "all_seam_weight_pairs_normalized": true,
+  "all_valid_coordinates_in_source_bounds": true,
+  "original_render_vs_golden": {
+    "different_values": 0,
+    "mae": 0.0,
+    "max_abs_error": 0,
+    "mse": 0.0,
+    "psnr_db": null
+  },
+  "roi_reconstruction_vs_golden": {
+    "different_values": 0,
+    "mae": 0.0,
+    "max_abs_error": 0,
+    "mse": 0.0,
+    "psnr_db": null
+  },
+  "roi_reconstruction_vs_original": {
+    "different_values": 0,
+    "mae": 0.0,
+    "max_abs_error": 0,
+    "mse": 0.0,
+    "psnr_db": null
+  }
+}

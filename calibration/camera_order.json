@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "confirmed_date": "2026-07-30",
+  "logical_order": [
+    2,
+    1,
+    4,
+    3
+  ],
+  "cameras": [
+    {
+      "logical_camera": 2,
+      "hub_downstream_port": 4,
+      "original_device_node": "/dev/video25",
+      "current_device_node_at_confirmation": "/dev/video29"
+    },
+    {
+      "logical_camera": 1,
+      "hub_downstream_port": 3,
+      "original_device_node": "/dev/video23",
+      "current_device_node_at_confirmation": "/dev/video26"
+    },
+    {
+      "logical_camera": 4,
+      "hub_downstream_port": 2,
+      "original_device_node": "/dev/video21",
+      "current_device_node_at_confirmation": "/dev/video22"
+    },
+    {
+      "logical_camera": 3,
+      "hub_downstream_port": 5,
+      "original_device_node": "/dev/video27",
+      "current_device_node_at_confirmation": "/dev/video31"
+    }
+  ],
+  "selection_requirements": {
+    "uvc_interface": "1.0",
+    "pixel_format": "MJPG",
+    "width": 1280,
+    "height": 720
+  },
+  "note": "Resolve devices by USB hub downstream port at runtime. Linux /dev/videoN values are diagnostic only and may change after re-enumeration."
+}

@@ -1,0 +1,31 @@
+# Build outputs
+build/
+*.o
+*.d
+*.a
+*.so
+
+# Backup files
+*.bak
+*.bak2
+*~
+*.orig
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Local runtime files
+*.out
+
+# Development notes (may contain credentials/private paths)
+memory*.md
+
+# Runtime-generated test outputs (keep committed evidence, ignore new runs)
+tests/artifacts/*.log
+tests/artifacts/*.bin

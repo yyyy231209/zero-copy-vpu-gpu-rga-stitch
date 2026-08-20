@@ -1,0 +1,467 @@
+{
+  "algorithm": {
+    "feather_px": 34,
+    "fov_degrees": 150.0,
+    "logical_order": [
+      2,
+      1,
+      4,
+      3
+    ],
+    "panorama_density_width": 2048,
+    "projection": "fisheye_open_chain_yaw_only",
+    "seam_source": "user_accepted_fixed_full_resolution",
+    "seams_x": [
+      754,
+      1156,
+      1711
+    ]
+  },
+  "body_segments": [
+    {
+      "camera_index": 0,
+      "dst_x": 84,
+      "height": 720,
+      "logical_camera": 2,
+      "nominal_dst_x": 0,
+      "nominal_width": 736,
+      "src_x": 0,
+      "width": 652
+    },
+    {
+      "camera_index": 1,
+      "dst_x": 772,
+      "height": 720,
+      "logical_camera": 1,
+      "nominal_dst_x": 772,
+      "nominal_width": 366,
+      "src_x": 34,
+      "width": 366
+    },
+    {
+      "camera_index": 2,
+      "dst_x": 1174,
+      "height": 720,
+      "logical_camera": 4,
+      "nominal_dst_x": 1174,
+      "nominal_width": 520,
+      "src_x": 34,
+      "width": 520
+    },
+    {
+      "camera_index": 3,
+      "dst_x": 1728,
+      "height": 720,
+      "logical_camera": 3,
+      "nominal_dst_x": 1728,
+      "nominal_width": 662,
+      "src_x": 34,
+      "width": 606
+    }
+  ],
+  "camera_identity": {
+    "cameras": [
+      {
+        "current_device_node_at_confirmation": "/dev/video29",
+        "hub_downstream_port": 4,
+        "logical_camera": 2,
+        "original_device_node": "/dev/video25"
+      },
+      {
+        "current_device_node_at_confirmation": "/dev/video26",
+        "hub_downstream_port": 3,
+        "logical_camera": 1,
+        "original_device_node": "/dev/video23"
+      },
+      {
+        "current_device_node_at_confirmation": "/dev/video22",
+        "hub_downstream_port": 2,
+        "logical_camera": 4,
+        "original_device_node": "/dev/video21"
+      },
+      {
+        "current_device_node_at_confirmation": "/dev/video31",
+        "hub_downstream_port": 5,
+        "logical_camera": 3,
+        "original_device_node": "/dev/video27"
+      }
+    ],
+    "confirmed_date": "2026-07-30",
+    "logical_order": [
+      2,
+      1,
+      4,
+      3
+    ],
+    "note": "Resolve devices by USB hub downstream port at runtime. Linux /dev/videoN values are diagnostic only and may change after re-enumeration.",
+    "schema_version": 1,
+    "selection_requirements": {
+      "height": 720,
+      "pixel_format": "MJPG",
+      "uvc_interface": "1.0",
+      "width": 1280
+    }
+  },
+  "cameras": [
+    {
+      "camera_index": 0,
+      "height": 720,
+      "logical_camera": 2,
+      "map_x": "cam2_map_x.f32",
+      "map_x_valid_range": [
+        0.014857161790132523,
+        1278.9844970703125
+      ],
+      "map_y": "cam2_map_y.f32",
+      "map_y_valid_range": [
+        0.004948031157255173,
+        718.9989013671875
+      ],
+      "valid": "cam2_valid.u8",
+      "valid_pixels": 261540,
+      "valid_ratio": 0.5279796511627907,
+      "width": 688,
+      "x_offset": 84
+    },
+    {
+      "camera_index": 1,
+      "height": 720,
+      "logical_camera": 1,
+      "map_x": "cam1_map_x.f32",
+      "map_x_valid_range": [
+        286.10198974609375,
+        1102.9300537109375
+      ],
+      "map_y": "cam1_map_y.f32",
+      "map_y_valid_range": [
+        0.00028061747434549034,
+        718.9979858398438
+      ],
+      "valid": "cam1_valid.u8",
+      "valid_pixels": 184688,
+      "valid_ratio": 0.5883282364933741,
+      "width": 436,
+      "x_offset": 738
+    },
+    {
+      "camera_index": 2,
+      "height": 720,
+      "logical_camera": 4,
+      "map_x": "cam4_map_x.f32",
+      "map_x_valid_range": [
+        75.45333862304688,
+        1202.7354736328125
+      ],
+      "map_y": "cam4_map_y.f32",
+      "map_y_valid_range": [
+        0.00021983367332722992,
+        718.99951171875
+      ],
+      "valid": "cam4_valid.u8",
+      "valid_pixels": 240266,
+      "valid_ratio": 0.567521730914588,
+      "width": 588,
+      "x_offset": 1140
+    },
+    {
+      "camera_index": 3,
+      "height": 720,
+      "logical_camera": 3,
+      "map_x": "cam3_map_x.f32",
+      "map_x_valid_range": [
+        90.68317413330078,
+        1278.995849609375
+      ],
+      "map_y": "cam3_map_y.f32",
+      "map_y_valid_range": [
+        5.349131970433518e-05,
+        718.9989013671875
+      ],
+      "valid": "cam3_valid.u8",
+      "valid_pixels": 239116,
+      "valid_ratio": 0.5189149305555556,
+      "width": 640,
+      "x_offset": 1694
+    }
+  ],
+  "golden_capture": {
+    "devices_in_logical_order": [
+      29,
+      26,
+      22,
+      31
+    ]
+  },
+  "input": {
+    "height": 720,
+    "pixel_format": "NV12",
+    "width": 1280
+  },
+  "output": {
+    "height": 720,
+    "logical_nv12_width": 2390,
+    "padding_columns": 1,
+    "pixel_format": "NV12",
+    "stride": 2432,
+    "stride_align": 64,
+    "visible_width": 2389
+  },
+  "resources": {
+    "cam1_map_x.f32": {
+      "sha256": "982ca41cfb8b7027a3fd0ae5ee5bb621a1c5b2e9a49691dc60c51b97d094ccd7",
+      "size": 1255680
+    },
+    "cam1_map_y.f32": {
+      "sha256": "3e398ec334227204e8ad95c8c49685e0901c88fd494fc3b00cbc23cba7f3ecf0",
+      "size": 1255680
+    },
+    "cam1_valid.u8": {
+      "sha256": "f939d4800a7fac5c5abb95226e167d25fa56021871d3b9b945f2b148554e02bc",
+      "size": 313920
+    },
+    "cam2_map_x.f32": {
+      "sha256": "2cabd10df388f72c22cbbee795bdac6da032e388a61c17f5be1c2e155fab3d91",
+      "size": 1981440
+    },
+    "cam2_map_y.f32": {
+      "sha256": "606e22e5c0b9812cb1befeea4584a54a8dcf132856f0ceedee268f87dbc7c331",
+      "size": 1981440
+    },
+    "cam2_valid.u8": {
+      "sha256": "09896a89c65c092f111aa5f3263a24f98cc4aa3fbccad3b4d35bc5064c0fa983",
+      "size": 495360
+    },
+    "cam3_map_x.f32": {
+      "sha256": "dbea15ebf2ea6a6af3a64386fb5f9f5e62b3e25dae609f7f518ec869a06b5410",
+      "size": 1843200
+    },
+    "cam3_map_y.f32": {
+      "sha256": "b1199b915774e193fdd13a01cb0bec3fca0494a13dbffb58aebe991b62a7d665",
+      "size": 1843200
+    },
+    "cam3_valid.u8": {
+      "sha256": "057d660c13d33b1028b43498c72a212966e34fa18050f7bff548f210ddb23340",
+      "size": 460800
+    },
+    "cam4_map_x.f32": {
+      "sha256": "4a94ad811ed9a7102f8fc594b0f04ed0380b4e0df8503d06a3fcd57191f066e1",
+      "size": 1693440
+    },
+    "cam4_map_y.f32": {
+      "sha256": "9d6fa5f49bd72e6f125ab54301e31a830ac5ce707e8713332afeaf98ce2d1db7",
+      "size": 1693440
+    },
+    "cam4_valid.u8": {
+      "sha256": "ba75d27cf89d4bf778cbbd06b18a47d11e2e021c57a28c550846fc691e3900bb",
+      "size": 423360
+    },
+    "seam0_coverage_uv.u8": {
+      "sha256": "318b86df3cd1e8f6899a65d6e65a3130d53e80cf36bbaf96b43decc9b92107d0",
+      "size": 6480
+    },
+    "seam0_coverage_y.u8": {
+      "sha256": "34083fa718f7e1e73a5c964860b03b03a6c2e07ca314ac843b2c446cdf18f606",
+      "size": 25920
+    },
+    "seam0_left_uv.f32": {
+      "sha256": "550858d3635447a037925af8fc469732a710207069ff6d6bf5c2f26d70133bfd",
+      "size": 25920
+    },
+    "seam0_left_y.f32": {
+      "sha256": "8a21fb21686bc856c9f07ca474bee8630030671dbee13ead5caf51759054776f",
+      "size": 103680
+    },
+    "seam0_right_uv.f32": {
+      "sha256": "ffcd0bb0bb643ddbdad92fb5311ef778b98dd4cc83b4acebedac56ed9e908036",
+      "size": 25920
+    },
+    "seam0_right_y.f32": {
+      "sha256": "e513fceb118cc0ac39dd210edb79d3e71d32867b783d539bb2f3f2b0db3aa917",
+      "size": 103680
+    },
+    "seam1_coverage_uv.u8": {
+      "sha256": "07a860a095dfad0562f28affed32dff9439c189d8574feb2e45143250af9fcac",
+      "size": 6480
+    },
+    "seam1_coverage_y.u8": {
+      "sha256": "4aa5174f0b557d06a968e5ad1b379d5fe7eaedc176e6a623746e9e829c68ec13",
+      "size": 25920
+    },
+    "seam1_left_uv.f32": {
+      "sha256": "5df7f920b01ba27e850f8aa8d32267a9da0523ce0db61b8492160dac398b03b1",
+      "size": 25920
+    },
+    "seam1_left_y.f32": {
+      "sha256": "34a89910fc3890b26d6be504b19bbbdaab285105e989b342ef9faeeff58b9ce9",
+      "size": 103680
+    },
+    "seam1_right_uv.f32": {
+      "sha256": "09050bc9d683910fdbfbd31e35ac5a8a71c88db340e1b1fc2ca864be3c514ea3",
+      "size": 25920
+    },
+    "seam1_right_y.f32": {
+      "sha256": "eac5c94e59375e92635119eb231980b91180bb76ed82e17973fd9b096b889d69",
+      "size": 103680
+    },
+    "seam2_coverage_uv.u8": {
+      "sha256": "76fca4a3edc329a3a8bfb4b46c7e26a77e6a17aca253873b48d0ac3a3df0f117",
+      "size": 6120
+    },
+    "seam2_coverage_y.u8": {
+      "sha256": "c2243b09b588fae5cba1ac8ff89b1f14db85af9e0aebe748c1753b8f28f95d5e",
+      "size": 24480
+    },
+    "seam2_left_uv.f32": {
+      "sha256": "bf2c60f47338465ced6abb4ac0c5afbcdf67252917d497f48ffd90f604703432",
+      "size": 24480
+    },
+    "seam2_left_y.f32": {
+      "sha256": "4cbaae0141968f64aa9012fb3f67dde97d69001b510a87442ef0bef0f4e5dfdc",
+      "size": 97920
+    },
+    "seam2_right_uv.f32": {
+      "sha256": "86ef1ea7b9ba5020aeccc956be5bb129fc0c0ca7ccf8751aba5dcd09cd82e89d",
+      "size": 24480
+    },
+    "seam2_right_y.f32": {
+      "sha256": "019fcc99f713193c2a9bd9c9895b0796972d79a9dc72ff3a20df486b6e7948c4",
+      "size": 97920
+    },
+    "validation.json": {
+      "sha256": "44c9dc707beb08c2c2de7b91c9d1a0bdb5d1ea8a648c8c3a8430e1cccac024b4",
+      "size": 639
+    }
+  },
+  "schema_version": 1,
+  "seams": [
+    {
+      "coverage_uv": "seam0_coverage_uv.u8",
+      "coverage_y": "seam0_coverage_y.u8",
+      "covered_uv_pixels": 3644,
+      "covered_y_pixels": 14536,
+      "height_uv": 360,
+      "height_y": 720,
+      "index": 0,
+      "left_camera_index": 0,
+      "left_weight_uv": "seam0_left_uv.f32",
+      "left_weight_y": "seam0_left_y.f32",
+      "right_camera_index": 1,
+      "right_weight_uv": "seam0_right_uv.f32",
+      "right_weight_y": "seam0_right_y.f32",
+      "seam_x": 754,
+      "uv_weight_sum_error_max": 5.960464477539063e-08,
+      "width": 36,
+      "width_uv": 18,
+      "x": 736,
+      "y_weight_sum_error_max": 0.0
+    },
+    {
+      "coverage_uv": "seam1_coverage_uv.u8",
+      "coverage_y": "seam1_coverage_y.u8",
+      "covered_uv_pixels": 3596,
+      "covered_y_pixels": 14308,
+      "height_uv": 360,
+      "height_y": 720,
+      "index": 1,
+      "left_camera_index": 1,
+      "left_weight_uv": "seam1_left_uv.f32",
+      "left_weight_y": "seam1_left_y.f32",
+      "right_camera_index": 2,
+      "right_weight_uv": "seam1_right_uv.f32",
+      "right_weight_y": "seam1_right_y.f32",
+      "seam_x": 1156,
+      "uv_weight_sum_error_max": 5.960464477539063e-08,
+      "width": 36,
+      "width_uv": 18,
+      "x": 1138,
+      "y_weight_sum_error_max": 0.0
+    },
+    {
+      "coverage_uv": "seam2_coverage_uv.u8",
+      "coverage_y": "seam2_coverage_y.u8",
+      "covered_uv_pixels": 3330,
+      "covered_y_pixels": 13272,
+      "height_uv": 360,
+      "height_y": 720,
+      "index": 2,
+      "left_camera_index": 2,
+      "left_weight_uv": "seam2_left_uv.f32",
+      "left_weight_y": "seam2_left_y.f32",
+      "right_camera_index": 3,
+      "right_weight_uv": "seam2_right_uv.f32",
+      "right_weight_y": "seam2_right_y.f32",
+      "seam_x": 1711,
+      "uv_weight_sum_error_max": 5.960464477539063e-08,
+      "width": 34,
+      "width_uv": 17,
+      "x": 1694,
+      "y_weight_sum_error_max": 0.0
+    }
+  ],
+  "sources": {
+    "calib_cam1.npz": {
+      "sha256": "9d7374190c59824ebbff6fc63baaf46989c1cba5cc68495d9f0949a0c439b0bc",
+      "size": 1409
+    },
+    "calib_cam2.npz": {
+      "sha256": "767722a2f09b55cdc02e59219900c999257279d4f9f3147fd3d148b7831ad756",
+      "size": 1407
+    },
+    "calib_cam3.npz": {
+      "sha256": "748d9670c093b174b6d1794f13cb2817eaca55b257f76708f2617d9f55014f86",
+      "size": 1407
+    },
+    "calib_cam4.npz": {
+      "sha256": "7e2d59f922002b9278152df496ab4ac0e5e97f6ddfb969acc89277a882997028",
+      "size": 1408
+    },
+    "camera_order.json": {
+      "sha256": "93e4a31c63dc24307dcf3db6c846a3afcd455e3e10513b8908b94eaa1d605d1f",
+      "size": 1122
+    },
+    "export_open_chain_assets.py": {
+      "sha256": "5bf39686631b6f90a58bfe7c7ae99709bcb01959322d32d93c2c78a38b3b0b2c",
+      "size": 22126
+    },
+    "golden_manifest.json": {
+      "sha256": "6b73d10b67b89a8a28f02e51db3ee1bb0d8f6c3c456ca5d55aee04ba59d27ec4",
+      "size": 1285
+    },
+    "python_open_chain.png": {
+      "sha256": "7e90d19a0c3a7445d67613bb43d267d2a08a0e259a5b84c737c83bed059a08d0",
+      "size": 1125751
+    },
+    "stitch_360.py": {
+      "sha256": "d9e38c3a30f16df161f3cf614fa1620ca0ad68a7d11ee372113e1cab0266ab69",
+      "size": 36777
+    }
+  },
+  "validation": {
+    "all_body_rectangles_nv12_even": true,
+    "all_maps_finite": true,
+    "all_roi_offsets_and_widths_even": true,
+    "all_seam_weight_pairs_normalized": true,
+    "all_valid_coordinates_in_source_bounds": true,
+    "original_render_vs_golden": {
+      "different_values": 0,
+      "mae": 0.0,
+      "max_abs_error": 0,
+      "mse": 0.0,
+      "psnr_db": null
+    },
+    "roi_reconstruction_vs_golden": {
+      "different_values": 0,
+      "mae": 0.0,
+      "max_abs_error": 0,
+      "mse": 0.0,
+      "psnr_db": null
+    },
+    "roi_reconstruction_vs_original": {
+      "different_values": 0,
+      "mae": 0.0,
+      "max_abs_error": 0,
+      "mse": 0.0,
+      "psnr_db": null
+    }
+  }
+}
