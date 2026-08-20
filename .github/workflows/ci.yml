@@ -26,10 +26,14 @@ jobs:
         run: |
           git clone --depth 1 -b develop https://github.com/rockchip-linux/mpp.git /tmp/mpp
           git clone --depth 1 https://github.com/airockchip/librga.git /tmp/librga
-          echo "MPP inc:   /tmp/mpp/inc"
-          ls /tmp/mpp/inc/rockchip/ | head -5
-          echo "RGA inc:   /tmp/librga/include"
-          ls /tmp/librga/include/ | head -5
+          # 源码内头文件是扁平的，安装后才有 rockchip/、rga/ 子目录；
+          # 这里模拟安装布局以满足 #include <rockchip/rk_mpi.h> 和 <rga/im2d.h>
+          mkdir -p /tmp/mpp/inc/rockchip
+          cp /tmp/mpp/inc/*.h /tmp/mpp/inc/rockchip/
+          mkdir -p /tmp/librga/include/rga
+          cp /tmp/librga/include/*.h /tmp/librga/include/rga/
+          echo "--- mpp/inc/rockchip:"; ls /tmp/mpp/inc/rockchip | head -4
+          echo "--- librga/include/rga:"; ls /tmp/librga/include/rga | head -4
 
       - name: C++ syntax check (all src/)
         run: |
